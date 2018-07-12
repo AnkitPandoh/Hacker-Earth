@@ -34,20 +34,6 @@ public class RestInPeace {
 		out.close();
 	}
 
-	static String getString(String str, int length) {
-		if (length <= 1)
-			return str;
-		int mid = 0;
-		if (length % 2 == 0)
-			mid = length / 2 - 1;
-		else
-			mid = length / 2;
-		String leftStr = str.substring(0, mid);
-		String rightStr = str.substring(mid + 1, str.length());
-		String result = str.charAt(mid) + getString(leftStr, leftStr.length()) + getString(rightStr, rightStr.length());
-		return result;
-	}
-
 	static class InputReader {
 		private InputStream stream;
 		private byte[] buf = new byte[1024];
