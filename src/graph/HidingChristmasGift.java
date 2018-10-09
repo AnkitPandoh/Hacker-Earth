@@ -20,52 +20,44 @@ public class HidingChristmasGift {
 		OutputWriter out = new OutputWriter(System.out);
 		int n = in.readInt();
 		int m = in.readInt();
-		ArrayList<Node>[] graph = new ArrayList[n + 1];
-		for (int i = 1; i <= n; i++) {
+		ArrayList<Node>[] graph = new ArrayList[n+1];
+		for(int i=1;i<=n;i++){
 			graph[i] = new ArrayList<Node>();
 		}
-		int root = 0;
-		for (int i = 0; i < n - 1; i++) {
-			int x = in.readInt();
-			int y = in.readInt();
-			graph[x].add(new Node(y));
-			graph[y].add(new Node(x));
-			if(i==0)
-				root = x;
+		for(int i=0;i<n-1;i++){
+			int u = in.readInt();
+			int v = in.readInt();
+			graph[u].add(new Node(v));
+			graph[v].add(new Node(u));
 		}
-		int path[] = bfs(graph,root);
+		long[] results = new long[n+1];
 		for(int i=0;i<m;i++){
 			int x = in.readInt();
 			int y = in.readInt();
-		}
-		
-		/*int[] arr = new int[graph.length];
-		int x = 0,y=0;
-		for (int i = 0; i < m; i++) {
-			x = in.readInt();
-			y = in.readInt();
-			int[] path = bfs(graph, x, y);
-			while (y != 0) {
-				arr[y]++;
-				y = path[y];
+			int[] parent = bfs(graph,x,y);
+			while(y != 0){
+				results[y]++;
+				y = parent[y];
 			}
 		}
-		int max = 0;
-		for (int i = 0; i < arr.length; i++) {
-			max = Math.max(max, arr[i]);
+		long max = 0;
+		for (int i = 0; i < results.length; i++) {
+			max = Math.max(max, results[i]);
 		}
-		out.printLine(max);*/
+		out.printLine(max);
 		out.close();
 	}
 
-	static int[] bfs(ArrayList[] graph, int x) {
+	static int[] bfs(ArrayList[] graph, int start, int end) {
 		Queue<Integer> qu = new LinkedList<Integer>();
 		boolean[] visited = new boolean[graph.length];
 		int[] parent = new int[graph.length];
-		qu.add(x);
-		visited[x] = true;
+		qu.add(start);
+		visited[start] = true;
 		while (!qu.isEmpty()) {
 			int k = qu.poll();
+			if(k == end)
+				break;
 			ListIterator<Node> itr = graph[k].listIterator();
 			while (itr.hasNext()) {
 				int v = itr.next().value;
